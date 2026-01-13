@@ -11,7 +11,7 @@ function App() {
   const telemetry = useSelector((state: RootState) => state.telemetry);
 
   useEffect(() => {
-    setInterval(() => {
+    const dataInterval = setInterval(() => {
       dispatch(setTelemetry({
         fuel: Math.floor(Math.random() * 100),
         power: Math.floor(Math.random() * 100),
@@ -29,26 +29,30 @@ function App() {
 
   return (
     <div className="main">
-      <h1 className="text-center">Mission Control</h1>
-      <ConnectionStatus />
-      <TelemetryPanel
-        label="Fuel"
-        currentValue={telemetry.fuel}
-        unit="%"
-        healthStatus={telemetry.fuelHealth}
-      />
-      <TelemetryPanel
-        label="Power"
-        currentValue={telemetry.power}
-        unit="%"
-        healthStatus={telemetry.powerHealth}
-      />
-      <TelemetryPanel
-        label="Temperature"
-        currentValue={telemetry.temperature}
-        unit="°F"
-        healthStatus={telemetry.temperatureHealth}
-      />
+      <header className="dashboard-header">
+        <h1>Mission Control</h1>
+        <ConnectionStatus />
+      </header>
+      <div className="telemetry-grid">
+        <TelemetryPanel
+          label="Fuel"
+          currentValue={telemetry.fuel}
+          unit="%"
+          healthStatus={telemetry.fuelHealth}
+        />
+        <TelemetryPanel
+          label="Power"
+          currentValue={telemetry.power}
+          unit="%"
+          healthStatus={telemetry.powerHealth}
+        />
+        <TelemetryPanel
+          label="Temperature"
+          currentValue={telemetry.temperature}
+          unit="°F"
+          healthStatus={telemetry.temperatureHealth}
+        />
+      </div>
     </div>
   );
 }

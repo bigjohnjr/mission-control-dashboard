@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { RootState } from "../store";
 import { useSelector, useDispatch } from "react-redux";
 import { cycleStatus } from "../store/connectionSlice";
