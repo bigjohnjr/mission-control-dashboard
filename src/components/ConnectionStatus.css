@@ -1,0 +1,59 @@
+.connection-status {
+  position: relative;
+  padding-left: 30px;
+  font-family: "Courier New", monospace;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-connecting::before,
+.status-connected::before,
+.status-disconnected::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.status-connecting::before {
+  background-color: #f59e0b;
+  box-shadow: 0 0 12px #f59e0b, inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+  animation: pulse-yellow 1.5s infinite;
+}
+
+.status-connected::before {
+  background-color: #22c55e;
+  box-shadow: 0 0 12px #22c55e, inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.status-disconnected::before {
+  background-color: #ef4444;
+  box-shadow: 0 0 12px #ef4444, inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+  animation: pulse-red 1s infinite;
+}
+
+@keyframes pulse-yellow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes pulse-red {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

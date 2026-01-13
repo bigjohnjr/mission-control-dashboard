@@ -1,0 +1,35 @@
+.telemetry-panel {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 20px;
+  position: relative;
+}
+
+.telemetry-label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+}
+
+.telemetry-value {
+  display: block;
+  font-size: 32px;
+  font-weight: 600;
+  font-family: "Courier New", monospace;
+}
+
+.status-healthy .telemetry-value {
+  color: #22c55e;
+}
+
+.status-warning .telemetry-value {
+  color: #f59e0b;
+}
+
+.status-critical .telemetry-value {
+  color: #ef4444;
+}

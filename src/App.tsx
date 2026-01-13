@@ -1,0 +1,56 @@
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setTelemetry } from "./store/telemetrySlice.ts";
+import ConnectionStatus from "./components/ConnectionStatus";
+import TelemetryPanel from "./components/TelemetryPanel";
+import type { RootState } from "./store/index.ts";
+import "./App.css";
+
+function App() {
+  const dispatch = useDispatch();
+  const telemetry = useSelector((state: RootState) => state.telemetry);
+
+  useEffect(() => {
+    setInterval(() => {
+      dispatch(setTelemetry({
+        fuel: Math.floor(Math.random() * 100),
+        power: Math.floor(Math.random() * 100),
+        temperature: Math.floor(Math.random() * 150),
+        fuelHealth: "healthy",
+        powerHealth: "healthy",
+        temperatureHealth: "warning",
+      }));
+    }, 2000);
+
+    return () => {
+      clearInterval(dataInterval);
+    }
+  }, []);
+
+  return (
+    <div className="main">
+      <h1 className="text-center">Mission Control</h1>
+      <ConnectionStatus />
+      <TelemetryPanel
+        label="Fuel"
+        currentValue={telemetry.fuel}
+        unit="%"
+        healthStatus={telemetry.fuelHealth}
+      />
+      <TelemetryPanel
+        label="Power"
+        currentValue={telemetry.power}
+        unit="%"
+        healthStatus={telemetry.powerHealth}
+      />
+      <TelemetryPanel
+        label="Temperature"
+        currentValue={telemetry.temperature}
+        unit="°F"
+        healthStatus={telemetry.temperatureHealth}
+      />
+    </div>
+  );
+}
+
+export default App;
