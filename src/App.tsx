@@ -10,13 +10,25 @@ function App() {
   const dispatch = useDispatch();
   const telemetry = useSelector((state: RootState) => state.telemetry);
 
+  const getFuelHealth = (fuel: number) => {
+    if (fuel < 20) {
+      return "critical";
+    } else if (fuel >= 20 && fuel < 50) {
+      return "warning";
+    } else {
+      return "healthy";
+    }
+  };
+
   useEffect(() => {
     const dataInterval = setInterval(() => {
+      const newFuel = Math.floor(Math.random() * 100);
+
       dispatch(setTelemetry({
-        fuel: Math.floor(Math.random() * 100),
+        fuel: newFuel,
         power: Math.floor(Math.random() * 100),
         temperature: Math.floor(Math.random() * 150),
-        fuelHealth: "healthy",
+        fuelHealth: getFuelHealth(newFuel),
         powerHealth: "healthy",
         temperatureHealth: "warning",
       }));
