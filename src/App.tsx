@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setTelemetry } from "./store/telemetrySlice.ts";
+import { setConnectionStatus } from "./store/connectionSlice";
 import ConnectionStatus from "./components/ConnectionStatus";
 import TelemetryPanel from "./components/TelemetryPanel";
 import type { RootState } from "./store/index.ts";
@@ -20,22 +21,48 @@ function App() {
     }
   };
 
+  const getPowerHealth = (power: number) => {
+    if (power < 30) {
+      return "critical";
+    } else if (power >= 30 && power < 60) {
+      return "warning";
+    } else {
+      return "healthy";
+    }
+  };
+
+  const getTemperatureHealth = (temperature: number) => {
+    if (temperature > 120) {
+      return "critical";
+    } else if (temperature >= 90 && temperature < 120) {
+      return "warning";
+    } else {
+      return "healthy";
+    }
+  };
+
   useEffect(() => {
-    const dataInterval = setInterval(() => {
-      const newFuel = Math.floor(Math.random() * 100);
+    const ws = new WebSocket('ws://localhost:8080');
+    ws.onopen = () => {
+      dispatch(setConnectionStatus({status: "connected"}));
+    }
+    ws.onmessage = (event) => {
+      const parsedData = JSON.parse(event.data);
 
       dispatch(setTelemetry({
-        fuel: newFuel,
-        power: Math.floor(Math.random() * 100),
-        temperature: Math.floor(Math.random() * 150),
-        fuelHealth: getFuelHealth(newFuel),
-        powerHealth: "healthy",
-        temperatureHealth: "warning",
+        fuel: parsedData.fuel,
+        power: parsedData.power,
+        temperature: parsedData.temperature,
+        fuelHealth: getFuelHealth(parsedData.fuel),
+        powerHealth: getPowerHealth(parsedData.power),
+        temperatureHealth: getTemperatureHealth(parsedData.temperature)
       }));
-    }, 2000);
-
+    }
+    ws.onclose = () => {
+      dispatch(setConnectionStatus({status: "disconnected"}));
+    }
     return () => {
-      clearInterval(dataInterval);
+      ws.close();
     }
   }, []);
 
