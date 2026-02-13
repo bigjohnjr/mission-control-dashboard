@@ -24,7 +24,7 @@ A real-time mission control dashboard for a space exploration company, built wit
 1. Clone the repository:
 
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/bigjohnjr/mission-control-dashboard.git
    cd mission-control
    ```
 
