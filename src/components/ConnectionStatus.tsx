@@ -12,7 +12,6 @@ export default function ConnectionStatus() {
       ? "status-connected"
       : "status-disconnected";
 
-
   return (
     <>
       <div className={`connection-status ${handleClassChange()}`}>{status}</div>
